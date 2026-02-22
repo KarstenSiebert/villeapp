@@ -2,7 +2,6 @@ package com.siehog.ville;
 
 import static com.siehog.ville.httpclient.KeyHelper.ensureKeyPairExists;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
@@ -30,10 +29,6 @@ import java.util.concurrent.Executor;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-
-    String[] permissions = { "android.permission.CAMERA" };
-
-    private final static int CAMERA_ACCESS = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,10 +111,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
-
-                        if (checkCallingOrSelfPermission(permissions[0]) == PackageManager.PERMISSION_DENIED) {
-                            requestPermissions(new String[]{permissions[0]}, CAMERA_ACCESS);
-                        }
 
                         // User authenticated successfully
                     }

@@ -9,11 +9,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 
 public class ClientFactory {
-
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-
     public static final MediaType MEDIA_TYPE_JPG = MediaType.get("image/jpg");
-
     private static OkHttpClient okHttpClient = null;
 
     private ClientFactory() {

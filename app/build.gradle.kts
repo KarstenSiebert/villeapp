@@ -36,7 +36,7 @@ android {
     }
 }
 
-var cameraxversion = "1.4.2"
+var cameraversion = "1.5.3"
 
 dependencies {
     implementation(libs.appcompat)
@@ -52,11 +52,11 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation("androidx.camera:camera-core:${cameraxversion}")
-    implementation("androidx.camera:camera-camera2:${cameraxversion}")
-    implementation("androidx.camera:camera-lifecycle:${cameraxversion}")
-    implementation("androidx.camera:camera-view:${cameraxversion}")
-    implementation("androidx.camera:camera-extensions:${cameraxversion}")
+    implementation("androidx.camera:camera-core:${cameraversion}")
+    implementation("androidx.camera:camera-camera2:${cameraversion}")
+    implementation("androidx.camera:camera-lifecycle:${cameraversion}")
+    implementation("androidx.camera:camera-view:${cameraversion}")
+    implementation("androidx.camera:camera-extensions:${cameraversion}")
 
     implementation("androidx.biometric:biometric:1.1.0")
 
@@ -65,4 +65,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
 
     implementation("com.google.mlkit:barcode-scanning:17.3.0")
+
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }

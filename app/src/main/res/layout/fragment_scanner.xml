@@ -8,13 +8,11 @@ tools:context=".ui.scanner.ScannerFragment">
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-         />
+        android:layout_height="fill_parent" />
 
     <com.siehog.ville.ui.scanner.ScanOverlay
         android:id="@+id/scanOverlay"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-         />
+        android:layout_height="fill_parent" />
 
 </FrameLayout>

@@ -22,12 +22,6 @@ import com.siehog.ville.databinding.ItemTransformBinding;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Fragment that demonstrates a responsive layout pattern where the format of the content
- * transforms depending on the size of the screen. Specifically this Fragment shows items in
- * the [RecyclerView] using LinearLayoutManager in a small screen
- * and shows items using GridLayoutManager in a large screen.
- */
 public class TransformFragment extends Fragment {
 
     private FragmentTransformBinding binding;

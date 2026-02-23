@@ -4,12 +4,8 @@ import static com.siehog.ville.httpclient.KeyHelper.ensureKeyPairExists;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.Menu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
 
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
@@ -57,52 +53,33 @@ public class MainActivity extends AppCompatActivity {
         // authenticateUser();
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        if (binding.appBarMain.fab != null) {
-            binding.appBarMain.fab.setOnClickListener(view -> Snackbar.make(view, "Your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).setAnchorView(R.id.fab).show());
-        }
+
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
         assert navHostFragment != null;
         NavController navController = navHostFragment.getNavController();
 
-        NavigationView navigationView = binding.navView;
-        if (navigationView != null) {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_transform, R.id.nav_scanner, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_webview, R.id.nav_settings)
-                    .setOpenableLayout(binding.drawerLayout)
-                    .build();
-            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-            NavigationUI.setupWithNavController(navigationView, navController);
-        }
-
         BottomNavigationView bottomNavigationView = binding.appBarMain.contentMain.bottomNavView;
-        if (bottomNavigationView != null) {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_transform, R.id.nav_scanner, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_webview)
+
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_transform, R.id.nav_scanner)
                     .build();
-            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-            NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        boolean result = super.onCreateOptionsMenu(menu);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        NavigationView navView = findViewById(R.id.nav_view);
-        if (navView == null) {
-            getMenuInflater().inflate(R.menu.overflow, menu);
-        }
-        return result;
-    }
+        /*
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setOnItemSelectedListener(item -> {
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.nav_settings) {
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-            navController.navigate(R.id.nav_settings);
+                if (item.getItemId() == R.id.nav_scanner) {
+                    navController.popBackStack(R.id.nav_scanner, false);
+                    return true;
+                }
+
+                return NavigationUI.onNavDestinationSelected(item, navController);
+            });
         }
-        return super.onOptionsItemSelected(item);
+        */
     }
 
     @Override

@@ -7,5 +7,4 @@ public class ScannerViewModel extends ViewModel {
     public ScannerViewModel() {
     }
 
-
 }

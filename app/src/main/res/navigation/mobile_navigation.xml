@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_transform"
         android:name="com.siehog.ville.ui.transform.TransformFragment"
-        android:label="@string/menu_transform"
+        android:label="@string/menu_wallet"
         tools:layout="@layout/fragment_transform" />
 
     <fragment
@@ -18,26 +18,9 @@
         tools:layout="@layout/fragment_scanner" />
 
     <fragment
-        android:id="@+id/nav_reflow"
-        android:name="com.siehog.ville.ui.reflow.ReflowFragment"
-        android:label="@string/menu_reflow"
-        tools:layout="@layout/fragment_reflow" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.siehog.ville.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
         android:id="@+id/nav_webview"
         android:name="com.siehog.ville.ui.webview.WebviewFragment"
-        android:label="@string/menu_webview"
+        android:label="@string/menu_market"
         tools:layout="@layout/fragment_webview" />
 
-    <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.siehog.ville.ui.settings.SettingsFragment"
-        android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings" />
 </navigation>

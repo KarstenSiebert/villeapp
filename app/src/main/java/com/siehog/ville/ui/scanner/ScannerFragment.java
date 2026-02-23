@@ -19,6 +19,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +33,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.siehog.ville.R;
 import com.siehog.ville.databinding.FragmentScannerBinding;
 import com.siehog.ville.httpclient.ClientFactory;
-import com.siehog.ville.ui.webview.WebviewFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -245,20 +246,18 @@ public class ScannerFragment extends Fragment {
                         try (ResponseBody responseBody = response.body()) {
                             JSONObject responseJson = new JSONObject(responseBody.string());
 
-                            // Snackbar.make(requireView(), responseJson.getString("access"), Snackbar.LENGTH_LONG).show();
-
                             String link = responseJson.getString("access");
 
                             requireActivity().runOnUiThread(() -> {
+                                if (qrScanner != null) {
+                                    qrScanner.stopQRCodeScanning();
+                                }
 
-                                qrScanner.stopQRCodeScanning();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("link", link);
 
-                                WebviewFragment webviewFragment = WebviewFragment.newInstance(link);
-
-                                requireActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.nav_host_fragment_content_main, webviewFragment)
-                                        .addToBackStack(null)
-                                        .commit();
+                                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+                                navController.navigate(R.id.nav_webview, bundle);
                             });
 
                         } catch (IOException | JSONException e) {

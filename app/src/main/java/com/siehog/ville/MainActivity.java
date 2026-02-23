@@ -2,6 +2,7 @@ package com.siehog.ville;
 
 import static com.siehog.ville.httpclient.KeyHelper.ensureKeyPairExists;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.siehog.ville.databinding.ActivityMainBinding;
 
+import java.util.UUID;
 import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
             ensureKeyPairExists();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+
+        String id = prefs.getString("device_id", null);
+
+        if (id == null) {
+            id = UUID.randomUUID().toString();
+            prefs.edit().putString("device_id", id).apply();
         }
 
         authenticateUser();
@@ -113,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         super.onAuthenticationSucceeded(result);
 
                         // User authenticated successfully
-                    }
+                   }
 
                     @Override
                     public void onAuthenticationFailed() {

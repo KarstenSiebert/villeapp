@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             prefs.edit().putString("device_id", id).apply();
         }
 
-        authenticateUser();
+        // authenticateUser();
 
         setSupportActionBar(binding.appBarMain.toolbar);
         if (binding.appBarMain.fab != null) {

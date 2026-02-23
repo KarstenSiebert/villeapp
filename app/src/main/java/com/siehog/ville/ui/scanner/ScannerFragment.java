@@ -31,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.siehog.ville.R;
 import com.siehog.ville.databinding.FragmentScannerBinding;
 import com.siehog.ville.httpclient.ClientFactory;
+import com.siehog.ville.ui.webview.WebviewFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -225,7 +226,7 @@ public class ScannerFragment extends Fragment {
             RequestBody body = RequestBody.create(payload.toString(), JSON);
 
             Request request = new Request.Builder()
-                    .url("https://www.tokenville.fun/api/clients")
+                    .url("https://www.tokenville.fun/api/webview/" + market)
                     .addHeader("Content-Type", "application/json")
                     .post(body)
                     .build();
@@ -244,7 +245,21 @@ public class ScannerFragment extends Fragment {
                         try (ResponseBody responseBody = response.body()) {
                             JSONObject responseJson = new JSONObject(responseBody.string());
 
-                            Snackbar.make(requireView(), responseJson.getString("hallo"), Snackbar.LENGTH_LONG).show();
+                            // Snackbar.make(requireView(), responseJson.getString("access"), Snackbar.LENGTH_LONG).show();
+
+                            String link = responseJson.getString("access");
+
+                            requireActivity().runOnUiThread(() -> {
+
+                                qrScanner.stopQRCodeScanning();
+
+                                WebviewFragment webviewFragment = WebviewFragment.newInstance(link);
+
+                                requireActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.nav_host_fragment_content_main, webviewFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                            });
 
                         } catch (IOException | JSONException e) {
                             throw new RuntimeException(e);

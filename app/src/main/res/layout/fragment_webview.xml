@@ -3,10 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".ui.webview.WebviewFragment">
 
     <WebView
-        android:id="@+id/webview"
+        android:id="@+id/webviewMarket"
+        android:background="#000000"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

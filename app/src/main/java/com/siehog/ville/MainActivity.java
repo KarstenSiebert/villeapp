@@ -20,7 +20,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.siehog.ville.databinding.ActivityMainBinding;
-
 import java.util.UUID;
 import java.util.concurrent.Executor;
 
@@ -66,20 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
-        /*
-        if (bottomNavigationView != null) {
-            bottomNavigationView.setOnItemSelectedListener(item -> {
-
-                if (item.getItemId() == R.id.nav_scanner) {
-                    navController.popBackStack(R.id.nav_scanner, false);
-                    return true;
-                }
-
-                return NavigationUI.onNavDestinationSelected(item, navController);
-            });
-        }
-        */
     }
 
     @Override
@@ -99,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
-
-                        // User authenticated successfully
                    }
 
                     @Override

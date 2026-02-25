@@ -7,7 +7,6 @@ import static com.siehog.ville.httpclient.KeyHelper.getPublicKeyBase64;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -84,8 +83,6 @@ public class ScannerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        ScannerViewModel scannerViewModel =
-                new ViewModelProvider(this).get(ScannerViewModel.class);
 
         binding = FragmentScannerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -182,6 +179,12 @@ public class ScannerFragment extends Fragment {
             market = jsonObject.getInt("market");
             marketLatitude = jsonObject.getDouble("latitude");
             marketLongitude = jsonObject.getDouble("longitude");
+
+            SharedPreferences prefs = requireContext().getSharedPreferences("app_prefs", MODE_PRIVATE);
+
+            if (market > 0) {
+                prefs.edit().putInt("market_id", market).apply();
+            }
 
             if (checkRadius(marketLatitude, marketLongitude)) {
 

@@ -86,6 +86,7 @@ public class WebviewFragment extends Fragment {
 
         if (webView != null) {
             webView.setBackgroundColor(Color.BLACK);
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
             WebSettings settings = webView.getSettings();
 

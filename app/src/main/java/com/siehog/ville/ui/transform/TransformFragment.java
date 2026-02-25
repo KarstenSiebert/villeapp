@@ -24,8 +24,6 @@ import com.siehog.ville.databinding.FragmentTransformBinding;
 
 
 public class TransformFragment extends Fragment {
-
-    private String link;
     private FragmentTransformBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,36 +34,37 @@ public class TransformFragment extends Fragment {
 
         SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", MODE_PRIVATE);
 
-        link = prefs.getString("wallet_id", null);
+        String link = prefs.getString("wallet_id", null);
+        int market = prefs.getInt("market_id", 0);
 
         WebView webView = binding.webviewTransform.findViewById(R.id.webviewTransform);
 
         if (webView != null) {
             webView.setBackgroundColor(Color.BLACK);
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-            WebSettings settings = webView.getSettings();
+            if ((link != null) && (market > 0)) {
+                WebSettings settings = webView.getSettings();
 
-            settings.setUseWideViewPort(true);
-            settings.setJavaScriptEnabled(true);
-            settings.setDomStorageEnabled(true);
-            settings.setAllowContentAccess(true);
-            settings.setLoadWithOverviewMode(true);
-            // settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-            settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-            settings.setUserAgentString("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 TokenVille");
-            // settings.setUserAgentString("TokenVille (Android; 14)");
-            CookieManager cookieManager = CookieManager.getInstance();
-            cookieManager.setAcceptCookie(true);
-            cookieManager.setAcceptThirdPartyCookies(webView, true);
+                settings.setUseWideViewPort(true);
+                settings.setJavaScriptEnabled(true);
+                settings.setDomStorageEnabled(true);
+                settings.setAllowContentAccess(true);
+                settings.setLoadWithOverviewMode(true);
+                // settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+                settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+                settings.setUserAgentString("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 TokenVille");
+                // settings.setUserAgentString("TokenVille (Android; 14)");
+                CookieManager cookieManager = CookieManager.getInstance();
+                cookieManager.setAcceptCookie(true);
+                cookieManager.setAcceptThirdPartyCookies(webView, true);
 
-            webView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                    Log.e("WEBVIEW", error.toString());
-                }
-            });
-
-            if (link != null) {
+                webView.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                            Log.e("WEBVIEW", error.toString());
+                        }
+                });
 
                 try {
                     webView.loadUrl(link);

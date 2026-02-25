@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
 
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove("market_id");
+        editor.apply();
+
         String id = prefs.getString("device_id", null);
 
         if (id == null) {

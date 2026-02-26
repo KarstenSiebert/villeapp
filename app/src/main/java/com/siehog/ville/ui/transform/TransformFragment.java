@@ -3,6 +3,7 @@ package com.siehog.ville.ui.transform;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,10 @@ import androidx.fragment.app.Fragment;
 
 import com.siehog.ville.R;
 import com.siehog.ville.databinding.FragmentTransformBinding;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class TransformFragment extends Fragment {
@@ -53,8 +58,8 @@ public class TransformFragment extends Fragment {
                 settings.setLoadWithOverviewMode(true);
                 // settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
                 settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-                settings.setUserAgentString("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 TokenVille");
-                // settings.setUserAgentString("TokenVille (Android; 14)");
+                // settings.setUserAgentString("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 TokenVille");
+                settings.setUserAgentString("TokenVille (Android; 14)");
                 CookieManager cookieManager = CookieManager.getInstance();
                 cookieManager.setAcceptCookie(true);
                 cookieManager.setAcceptThirdPartyCookies(webView, true);
@@ -66,8 +71,15 @@ public class TransformFragment extends Fragment {
                         }
                 });
 
+                Locale currentLocale = Resources.getSystem().getConfiguration().getLocales().get(0);
+
+                String language = currentLocale.getLanguage();
+
+                Map<String, String> extraHeaders = new HashMap<>();
+                extraHeaders.put("X-User-Locale", language);
+
                 try {
-                    webView.loadUrl(link);
+                    webView.loadUrl(link, extraHeaders);
 
                 } catch (Exception e) {
                     throw new RuntimeException(e);

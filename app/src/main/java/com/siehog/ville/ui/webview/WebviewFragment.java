@@ -6,6 +6,7 @@ import static com.siehog.ville.httpclient.KeyHelper.getPublicKeyBase64;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -34,6 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -56,13 +60,16 @@ public class WebviewFragment extends Fragment {
         SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", MODE_PRIVATE);
 
         String id = prefs.getString("device_id", null);
+
         int market = prefs.getInt("market_id", 0);
+
+        String operatorUrl = prefs.getString("operator_url", null);
 
         try {
             String publicKey = getPublicKeyBase64();
 
-            if ((publicKey != null) && (id != null) && (market > 0)) {
-                grabUserWallet(publicKey, id, market);
+            if ((publicKey != null) && (id != null) && (market > 0) && operatorUrl != null) {
+                grabUserWallet(publicKey, id, market, operatorUrl);
             }
 
         } catch (Exception e) {
@@ -90,6 +97,8 @@ public class WebviewFragment extends Fragment {
 
             WebSettings settings = webView.getSettings();
 
+            settings.setDefaultTextEncodingName("utf-8");
+
             settings.setUseWideViewPort(true);
             settings.setJavaScriptEnabled(true);
             settings.setDomStorageEnabled(true);
@@ -97,8 +106,8 @@ public class WebviewFragment extends Fragment {
             settings.setLoadWithOverviewMode(true);
             // settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
             settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-            settings.setUserAgentString("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 TokenVille");
-            // settings.setUserAgentString("TokenVille (Android; 14)");
+            // settings.setUserAgentString("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 TokenVille");
+            settings.setUserAgentString("TokenVille (Android; 14)");
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.setAcceptCookie(true);
             cookieManager.setAcceptThirdPartyCookies(webView, true);
@@ -110,14 +119,18 @@ public class WebviewFragment extends Fragment {
                 }
             });
 
-            if (link != null) {
+            Locale currentLocale = Resources.getSystem().getConfiguration().getLocales().get(0);
 
-                try {
-                    webView.loadUrl(link);
+            String language = currentLocale.getLanguage();
 
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+            Map<String, String> extraHeaders = new HashMap<>();
+            extraHeaders.put("X-User-Locale", language);
+
+            try {
+                webView.loadUrl(link, extraHeaders);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
 
@@ -130,7 +143,7 @@ public class WebviewFragment extends Fragment {
         binding = null;
     }
 
-    private void grabUserWallet(String publicKey, String id, int market) {
+    private void grabUserWallet(String publicKey, String id, int market, String operatorUrl) {
 
         OkHttpClient client = ClientFactory.getClient();
 
@@ -149,7 +162,7 @@ public class WebviewFragment extends Fragment {
             RequestBody body = RequestBody.create(payload.toString(), JSON);
 
             Request request = new Request.Builder()
-                    .url("https://www.tokenville.fun/api/deposit/" + market)
+                    .url(operatorUrl + "/api/deposit/" + market)
                     .addHeader("Content-Type", "application/json")
                     .post(body)
                     .build();

@@ -20,6 +20,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.siehog.ville.databinding.ActivityMainBinding;
+
 import java.util.UUID;
 import java.util.concurrent.Executor;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove("market_id");
+        editor.remove("operator_url");
         editor.apply();
 
         String id = prefs.getString("device_id", null);

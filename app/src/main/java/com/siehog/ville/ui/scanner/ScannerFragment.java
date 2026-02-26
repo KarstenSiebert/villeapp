@@ -60,6 +60,8 @@ public class ScannerFragment extends Fragment {
     private double marketLatitude;
     private double marketLongitude;
 
+    private String operatorUrl;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -152,7 +154,7 @@ public class ScannerFragment extends Fragment {
                 startScanner();
 
             } else {
-                Snackbar.make(requireView(), "Location not available", Snackbar.LENGTH_LONG).show();
+                // Snackbar.make(requireView(), "Location not available", Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -177,6 +179,9 @@ public class ScannerFragment extends Fragment {
             JSONObject jsonObject = new JSONObject(base64String);
 
             market = jsonObject.getInt("market");
+
+            operatorUrl = jsonObject.getString("operator");
+
             marketLatitude = jsonObject.getDouble("latitude");
             marketLongitude = jsonObject.getDouble("longitude");
 
@@ -184,6 +189,10 @@ public class ScannerFragment extends Fragment {
 
             if (market > 0) {
                 prefs.edit().putInt("market_id", market).apply();
+            }
+
+            if (!operatorUrl.isEmpty()) {
+                prefs.edit().putString("operator_url", operatorUrl).apply();
             }
 
             if (checkRadius(marketLatitude, marketLongitude)) {
@@ -230,7 +239,7 @@ public class ScannerFragment extends Fragment {
             RequestBody body = RequestBody.create(payload.toString(), JSON);
 
             Request request = new Request.Builder()
-                    .url("https://www.tokenville.fun/api/webview/" + market)
+                    .url(operatorUrl + "/api/webview/" + market)
                     .addHeader("Content-Type", "application/json")
                     .post(body)
                     .build();

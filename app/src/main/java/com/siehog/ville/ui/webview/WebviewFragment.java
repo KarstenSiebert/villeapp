@@ -114,19 +114,18 @@ public class WebviewFragment extends Fragment {
             settings.setLoadWithOverviewMode(true);
             // settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
             settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-            // settings.setUserAgentString("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 TokenVille");
             settings.setUserAgentString("TokenVille (Android; 14)");
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.setAcceptCookie(true);
             cookieManager.setAcceptThirdPartyCookies(webView, true);
 
             webView.setWebViewClient(new WebViewClient() {
-
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    blackWebviewPlaceholder.setVisibility(View.GONE);
-
+                    webView.setAlpha(0f);
                     webView.setVisibility(View.VISIBLE);
+                    webView.animate().alpha(1f).setDuration(300).start();
+                    blackWebviewPlaceholder.setVisibility(View.GONE);
                 }
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {

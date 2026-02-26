@@ -53,6 +53,8 @@ public class WebviewFragment extends Fragment {
     private String link;
     private FragmentWebviewBinding binding;
 
+    private View blackWebviewPlaceholder;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +87,10 @@ public class WebviewFragment extends Fragment {
         binding = FragmentWebviewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        blackWebviewPlaceholder = root.findViewById(R.id.blackWebviewPlaceholder);
+
+        blackWebviewPlaceholder.setVisibility(View.VISIBLE);
+
         if (getArguments() != null) {
             link = getArguments().getString(ARG_LINK);
         }
@@ -92,6 +98,8 @@ public class WebviewFragment extends Fragment {
         WebView webView = binding.webviewMarket.findViewById(R.id.webviewMarket);
 
         if (webView != null) {
+            webView.setVisibility(View.INVISIBLE);
+
             webView.setBackgroundColor(Color.BLACK);
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
@@ -113,6 +121,13 @@ public class WebviewFragment extends Fragment {
             cookieManager.setAcceptThirdPartyCookies(webView, true);
 
             webView.setWebViewClient(new WebViewClient() {
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    blackWebviewPlaceholder.setVisibility(View.GONE);
+
+                    webView.setVisibility(View.VISIBLE);
+                }
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                     Log.e("WEBVIEW", error.toString());

@@ -31,6 +31,8 @@ import java.util.Map;
 public class TransformFragment extends Fragment {
     private FragmentTransformBinding binding;
 
+    private View blackTransformPlaceholder;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -44,7 +46,13 @@ public class TransformFragment extends Fragment {
 
         WebView webView = binding.webviewTransform.findViewById(R.id.webviewTransform);
 
+        blackTransformPlaceholder = root.findViewById(R.id.blackTransformPlaceholder);
+
+        blackTransformPlaceholder.setVisibility(View.VISIBLE);
+
         if (webView != null) {
+            webView.setVisibility(View.INVISIBLE);
+
             webView.setBackgroundColor(Color.BLACK);
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
@@ -65,8 +73,14 @@ public class TransformFragment extends Fragment {
                 cookieManager.setAcceptThirdPartyCookies(webView, true);
 
                 webView.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                        @Override
+                        public void onPageFinished(WebView view, String url) {
+                            blackTransformPlaceholder.setVisibility(View.GONE);
+
+                            webView.setVisibility(View.VISIBLE);
+                        }
+                        @Override
+                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                             Log.e("WEBVIEW", error.toString());
                         }
                 });

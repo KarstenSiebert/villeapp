@@ -6,6 +6,12 @@
     android:background="@color/black"
     tools:context=".ui.webview.WebviewFragment">
 
+    <View
+        android:id="@+id/blackWebviewPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black" />
+
     <WebView
         android:id="@+id/webviewMarket"
         android:background="@color/black"

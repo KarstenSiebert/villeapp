@@ -122,9 +122,7 @@ public class WebviewFragment extends Fragment {
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    webView.setAlpha(0f);
                     webView.setVisibility(View.VISIBLE);
-                    webView.animate().alpha(1f).setDuration(300).start();
                     blackWebviewPlaceholder.setVisibility(View.GONE);
                 }
                 @Override

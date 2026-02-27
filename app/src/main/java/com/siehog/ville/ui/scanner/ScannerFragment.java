@@ -185,34 +185,40 @@ public class ScannerFragment extends Fragment {
             marketLatitude = jsonObject.getDouble("latitude");
             marketLongitude = jsonObject.getDouble("longitude");
 
-            SharedPreferences prefs = requireContext().getSharedPreferences("app_prefs", MODE_PRIVATE);
-
-            if (market > 0) {
-                prefs.edit().putInt("market_id", market).apply();
-            }
-
-            if (!operatorUrl.isEmpty()) {
-                prefs.edit().putString("operator_url", operatorUrl).apply();
-            }
-
-            if (checkRadius(marketLatitude, marketLongitude)) {
-
-                try {
-                    String publicKey = getPublicKeyBase64();
-
-                    grabMarketData(publicKey, market);
-
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-            } else {
-                Snackbar.make(requireView(), "Outsite of radius", Snackbar.LENGTH_LONG).show();
-            }
-
         } catch (JSONException e) {
-            e.printStackTrace();
-            System.out.println("Fehler beim Parsen des JSON!");
+            throw new RuntimeException(e);
+        }
+
+        SharedPreferences prefs = requireContext().getSharedPreferences("app_prefs", MODE_PRIVATE);
+
+        if (market > 0) {
+            prefs.edit().putInt("market_id", market).apply();
+        }
+
+        if (!operatorUrl.isEmpty()) {
+            prefs.edit().putString("operator_url", operatorUrl).apply();
+        }
+
+        boolean isInRadius = true;
+
+        // Allow global market access, if values are set less
+        if (marketLatitude > 0.0 && marketLongitude > 0.0) {
+            isInRadius = checkRadius(marketLatitude, marketLongitude);
+        }
+
+        if (isInRadius && (market > 0)) {
+
+            try {
+                String publicKey = getPublicKeyBase64();
+
+                grabMarketData(publicKey, market);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        } else {
+            Snackbar.make(requireView(), "No permission", Snackbar.LENGTH_LONG).show();
         }
     }
 

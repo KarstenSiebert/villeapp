@@ -68,5 +68,5 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
-    implementation("com.squareup.okhttp3:okhttp-urlconnection:3.8.1")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:5.3.2")
 }

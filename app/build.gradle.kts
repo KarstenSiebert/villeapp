@@ -52,21 +52,21 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation("androidx.camera:camera-core:${cameraversion}")
-    implementation("androidx.camera:camera-camera2:${cameraversion}")
-    implementation("androidx.camera:camera-lifecycle:${cameraversion}")
-    implementation("androidx.camera:camera-view:${cameraversion}")
-    implementation("androidx.camera:camera-extensions:${cameraversion}")
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.camera.extensions)
 
-    implementation("androidx.biometric:biometric:1.1.0")
+    implementation(libs.biometric)
 
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.3.2"))
+    implementation(platform(libs.okhttp.bom))
 
-    implementation("com.squareup.okhttp3:okhttp")
+    implementation(libs.okhttp)
 
-    implementation("com.google.mlkit:barcode-scanning:17.3.0")
+    implementation(libs.barcode.scanning)
 
-    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation(libs.play.services.location)
 
-    implementation("com.squareup.okhttp3:okhttp-urlconnection:5.3.2")
+    implementation(libs.okhttp.urlconnection)
 }
